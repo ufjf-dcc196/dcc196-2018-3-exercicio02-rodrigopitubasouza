@@ -29,19 +29,16 @@ public class LembreteAdapter extends RecyclerView.Adapter<LembreteAdapter.ViewHo
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
-        View livroView = inflater.inflate(R.layout.series_layout,parent,false);
-        ViewHolder holder = new ViewHolder(livroView);
+        View serieView = inflater.inflate(R.layout.series_layout,parent,false);
+        ViewHolder holder = new ViewHolder(serieView);
         return holder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         int idxTitulo = cursor.getColumnIndexOrThrow(SeriesContract.Lembrete.COLUMN_NAME_TITULO);
-
         int idxAutor = cursor.getColumnIndexOrThrow(SeriesContract.Lembrete.COLUMN_NAME_TEMPORADA);
-
         int idxEp = cursor.getColumnIndexOrThrow(SeriesContract.Lembrete.COLUMN_NAME_EP);
-
         cursor.moveToPosition(position);
         holder.txtTitulo.setText(cursor.getString(idxTitulo));
         holder.txtTemporada.setText(cursor.getString(idxAutor));

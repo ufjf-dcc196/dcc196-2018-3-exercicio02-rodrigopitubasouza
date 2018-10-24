@@ -50,11 +50,10 @@ public class MainActivity extends AppCompatActivity {
                 values.put(SeriesContract.Lembrete.COLUMN_NAME_TITULO,String.valueOf(edtNome.getText()));
                 values.put(SeriesContract.Lembrete.COLUMN_NAME_TEMPORADA,Integer.valueOf(String.valueOf(edtTemporada.getText())));
                 values.put(SeriesContract.Lembrete.COLUMN_NAME_EP, Integer.valueOf(String.valueOf(edtEp.getText())));
+                db.insert(SeriesContract.Lembrete.TABLE_NAME,null, values);
                 adapter.setCursor(getCursor());
             }
         });
-
-
     }
 
     private Cursor getCursor() {
@@ -62,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
         String[] visao = {
                 SeriesContract.Lembrete.COLUMN_NAME_TITULO,SeriesContract.Lembrete.COLUMN_NAME_TEMPORADA, SeriesContract.Lembrete.COLUMN_NAME_EP
         };
-        String sort = SeriesContract.Lembrete.COLUMN_NAME_EP+ " DESC";
-        return db.query(SeriesContract.Lembrete.TABLE_NAME,visao,null,null,null,null,sort,null);
+        String sort = SeriesContract.Lembrete.COLUMN_NAME_TITULO+ " ASC";
+        return db.query(SeriesContract.Lembrete.TABLE_NAME,visao,null,null,null,null,sort);
     }
 }

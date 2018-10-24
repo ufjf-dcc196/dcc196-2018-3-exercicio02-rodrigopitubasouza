@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import DAO.SeriesContract;
 
 
 public class LembreteAdapter extends RecyclerView.Adapter<LembreteAdapter.ViewHolder> {
@@ -35,11 +36,11 @@ public class LembreteAdapter extends RecyclerView.Adapter<LembreteAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        int idxTitulo = cursor.getColumnIndexOrThrow(DAO.SeriesContract.Lembrete.COLUMN_NAME_TITULO);
+        int idxTitulo = cursor.getColumnIndexOrThrow(SeriesContract.Lembrete.COLUMN_NAME_TITULO);
 
-        int idxAutor = cursor.getColumnIndexOrThrow(DAO.SeriesContract.Lembrete.COLUMN_NAME_TEMPORADA);
+        int idxAutor = cursor.getColumnIndexOrThrow(SeriesContract.Lembrete.COLUMN_NAME_TEMPORADA);
 
-        int idxEp = cursor.getColumnIndexOrThrow(DAO.SeriesContract.Lembrete.COLUMN_NAME_EP);
+        int idxEp = cursor.getColumnIndexOrThrow(SeriesContract.Lembrete.COLUMN_NAME_EP);
 
         cursor.moveToPosition(position);
         holder.txtTitulo.setText(cursor.getString(idxTitulo));

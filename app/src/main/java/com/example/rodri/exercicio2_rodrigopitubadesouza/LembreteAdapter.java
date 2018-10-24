@@ -15,8 +15,18 @@ import DAO.SeriesContract;
 
 public class LembreteAdapter extends RecyclerView.Adapter<LembreteAdapter.ViewHolder> {
     private Cursor cursor;
+    private OnSerieClickListener listener;
+
     public LembreteAdapter(Cursor c){
         cursor = c;
+    }
+
+    public interface OnSerieClickListener {
+        void onSerieClick(View view, int position);
+    }
+
+    public void setOnSerieClickListener(OnSerieClickListener listener){
+        this.listener = listener;
     }
 
     public void setCursor(Cursor c){
@@ -50,7 +60,7 @@ public class LembreteAdapter extends RecyclerView.Adapter<LembreteAdapter.ViewHo
         return cursor.getCount();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder{
+    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         public TextView txtTitulo;
         public TextView txtTemporada;
         public TextView txtEp;
@@ -60,6 +70,29 @@ public class LembreteAdapter extends RecyclerView.Adapter<LembreteAdapter.ViewHo
             txtTitulo = itemView.findViewById(R.id.txt_serie_nome);
             txtTemporada = itemView.findViewById(R.id.txt_serie_temporada);
             txtEp = itemView.findViewById(R.id.txt_serie_episodio);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (listener != null)
+                    {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION)
+                        {
+                            listener.onSerieClick(v, position);
+                        }
+                    }
+                }
+            });
+        }
+
+        @Override
+        public void onClick(View v)
+        {
+            int position = getAdapterPosition();
+            if (position != RecyclerView.NO_POSITION)
+            {
+                listener.onSerieClick(v, position);
+            }
         }
     }
 }

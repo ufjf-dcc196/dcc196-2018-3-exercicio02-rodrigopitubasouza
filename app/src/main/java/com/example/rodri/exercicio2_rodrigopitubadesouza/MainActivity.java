@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import DAO.SeriesContract;
 import DAO.SeriesDbHelper;
@@ -52,6 +53,19 @@ public class MainActivity extends AppCompatActivity {
                 values.put(SeriesContract.Lembrete.COLUMN_NAME_EP, Integer.valueOf(String.valueOf(edtEp.getText())));
                 db.insert(SeriesContract.Lembrete.TABLE_NAME,null, values);
                 adapter.setCursor(getCursor());
+            }
+        });
+        final LembreteAdapter adapter = new LembreteAdapter(getCursor());
+        adapter.setOnSerieClickListener(new LembreteAdapter.OnSerieClickListener() {
+            @Override
+            public void onSerieClick(View view, int position) {
+                Toast.makeText(MainActivity.this, "CLICOU", Toast.LENGTH_SHORT).show();
+                SQLiteDatabase db = dbHelper.getReadableDatabase();
+                String select = SeriesContract.Lembrete._ID+" = ?";
+                String [] selectArgs = {String.valueOf(position)};
+                db.delete(SeriesContract.Lembrete.TABLE_NAME, select, selectArgs);
+                adapter.setCursor(getCursor());
+                adapter.notifyItemRemoved(position);
             }
         });
     }

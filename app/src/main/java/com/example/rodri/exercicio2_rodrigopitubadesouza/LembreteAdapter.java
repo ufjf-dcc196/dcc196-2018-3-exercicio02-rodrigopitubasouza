@@ -95,4 +95,11 @@ public class LembreteAdapter extends RecyclerView.Adapter<LembreteAdapter.ViewHo
             }
         }
     }
+
+    @Override
+    public long getItemId(int position) {
+        int idxID = cursor.getColumnIndexOrThrow(SeriesContract.Lembrete._ID);
+        cursor.moveToPosition(position);
+        return cursor.getLong(idxID);
+    }
 }

@@ -51,29 +51,29 @@ public class MainActivity extends AppCompatActivity {
                 values.put(SeriesContract.Lembrete.COLUMN_NAME_TITULO,String.valueOf(edtNome.getText()));
                 values.put(SeriesContract.Lembrete.COLUMN_NAME_TEMPORADA,Integer.valueOf(String.valueOf(edtTemporada.getText())));
                 values.put(SeriesContract.Lembrete.COLUMN_NAME_EP, Integer.valueOf(String.valueOf(edtEp.getText())));
-                db.insert(SeriesContract.Lembrete.TABLE_NAME,null, values);
+                long id = db.insert(SeriesContract.Lembrete.TABLE_NAME,null, values);
+                values.put(SeriesContract.Lembrete._ID, Long.valueOf(id));
                 adapter.setCursor(getCursor());
             }
         });
-        final LembreteAdapter adapter = new LembreteAdapter(getCursor());
         adapter.setOnSerieClickListener(new LembreteAdapter.OnSerieClickListener() {
             @Override
             public void onSerieClick(View view, int position) {
-                Toast.makeText(MainActivity.this, "CLICOU", Toast.LENGTH_SHORT).show();
                 SQLiteDatabase db = dbHelper.getReadableDatabase();
                 String select = SeriesContract.Lembrete._ID+" = ?";
-                String [] selectArgs = {String.valueOf(position)};
+                String [] selectArgs = {Long.toString(adapter.getItemId(position))};
                 db.delete(SeriesContract.Lembrete.TABLE_NAME, select, selectArgs);
                 adapter.setCursor(getCursor());
                 adapter.notifyItemRemoved(position);
             }
         });
+        rclSeries.setAdapter(adapter);
     }
 
     private Cursor getCursor() {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         String[] visao = {
-                SeriesContract.Lembrete.COLUMN_NAME_TITULO,SeriesContract.Lembrete.COLUMN_NAME_TEMPORADA, SeriesContract.Lembrete.COLUMN_NAME_EP
+                SeriesContract.Lembrete._ID,SeriesContract.Lembrete.COLUMN_NAME_ID, SeriesContract.Lembrete.COLUMN_NAME_TITULO,SeriesContract.Lembrete.COLUMN_NAME_TEMPORADA, SeriesContract.Lembrete.COLUMN_NAME_EP
         };
         String sort = SeriesContract.Lembrete.COLUMN_NAME_TITULO+ " ASC";
         return db.query(SeriesContract.Lembrete.TABLE_NAME,visao,null,null,null,null,sort);
